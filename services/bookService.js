@@ -1,4 +1,4 @@
-import db from '../db.js';
+import { db } from '../db.js';
 import Book from '../models/book.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -40,8 +40,8 @@ const deleteBook = async (isbn) => {
 
 const searchBooks = async (query) => {
   await db.read();
-  return db.data.books.filter(book => 
-    book.title.toLowerCase().includes(query.toLowerCase()) || 
+  return db.data.books.filter(book =>
+    book.title.toLowerCase().includes(query.toLowerCase()) ||
     book.genre.toLowerCase().includes(query.toLowerCase())
   );
 };

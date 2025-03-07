@@ -1,5 +1,4 @@
 import express from 'express';
-import { JSONFilePreset } from 'lowdb/node';
 import { middleware } from './middleware.js';
 import bookController from './controllers/bookController.js';
 import swaggerUi from 'swagger-ui-express';
@@ -11,10 +10,6 @@ const PORT_NUMMER = 3000;
 const app = express();
 app.use(express.json());
 
-const defaultDataObj = {
-  books: []
-};
-const db = await JSONFilePreset('db.json', defaultDataObj);
 
 app.use(middleware.middlewareApiKeyCheck);
 app.use(middleware.middlewareLogger);

@@ -1,18 +1,8 @@
-const { Low } = require('lowdb');
-const { JSONFile } = require('lowdb/node');
+import { JSONFilePreset } from 'lowdb/node';
 
 const defaultData = {
   books: []
 };
 
-const adapter = new JSONFile('db.json');
+export const db = await JSONFilePreset( 'db.json', defaultData );
 
-const initializeDb = async () => {
-  const db = new Low(adapter);
-  await db.read();
-  db.data = db.data || defaultData; 
-  await db.write();
-  return db;
-};
-
-module.exports = initializeDb();

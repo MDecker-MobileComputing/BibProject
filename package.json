@@ -2,15 +2,15 @@
   "type": "module",
   "dependencies": {
     "express": "^4.21.2",
-    "lowdb": "^8.0.0",
+    "lowdb": "^7.0.1",
     "mqtt": "^4.3.7",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^9.0.0",
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "beobachten": "nodemon src/server.js"
+    "start": "node server.js",
+    "beobachten": "nodemon server.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
