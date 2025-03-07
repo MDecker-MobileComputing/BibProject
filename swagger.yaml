@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: Bibliotheksverwaltung API
+  version: 1.0.0
+paths:
+  /books:
+    get:
+      summary: Liste aller Bücher
+      responses:
+        '200':
+          description: Erfolgreiche Antwort
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Neues Buch erstellen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Buch erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /books/{isbn}:
+    get:
+      summary: Einzelnes Buch abrufen
+      parameters:
+        - name: isbn
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Erfolgreiche Antwort
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Buch nicht gefunden
+    put:
+      summary: Buch aktualisieren
+      parameters:
+        - name: isbn
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '200':
+          description: Buch aktualisiert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Buch nicht gefunden
+    delete:
+      summary: Buch löschen
+      parameters:
+        - name: isbn
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Buch erfolgreich gelöscht
+        '404':
+          description: Buch nicht gefunden
+  /books/search:
+    get:
+      summary: Bücher suchen
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Erfolgreiche Suche
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        isbn:
+          type: string
+        title:
+          type: string
+        year:
+          type: integer
+        genre:
+          type: string
+        available:
+          type: boolean
+        authorId:
+          type: string
+    BookInput:
+      type: object
+      properties:
+        title:
+          type: string
+        year:
+          type: integer
+        genre:
+          type: string
+        authorId:
+          type: string
+      required:
+        - title
+        - year
+        - genre
+        - authorId

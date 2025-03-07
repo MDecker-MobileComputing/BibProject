@@ -38,7 +38,6 @@ Beziehungen
 - Ein Buch kann in mehreren Ausleihen vorkommen (1:n-Beziehung)
 
 
-
 E/R-Diagramm
 
 Das folgende Diagramm zeigt die Beziehungen zwischen den Entitäten Buch, Autor und Ausleihe:

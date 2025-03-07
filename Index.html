@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BibProject - Buchverwaltung</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #e0f2fe, #f9fafb);
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        }
+        .book-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-6 shadow-lg">
+        <h1 class="text-4xl font-bold tracking-tight">BibProject</h1>
+        <p class="text-lg mt-1">Deine moderne Buchverwaltung</p>
+    </header>
+
+    <!-- Hauptbereich -->
+    <main class="container mx-auto p-6">
+        <!-- Suchleiste -->
+        <div class="mb-8">
+            <input type="text" id="search" placeholder="Suche nach Titel oder Genre..." 
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
+        </div>
+
+        <!-- Formular zum Hinzufügen -->
+        <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Neues Buch hinzufügen</h2>
+            <form id="addBookForm" class="space-y-4">
+                <input type="text" id="title" placeholder="Titel" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="number" id="year" placeholder="Jahr" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="text" id="genre" placeholder="Genre" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="text" id="authorId" placeholder="Autor-ID" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <!-- Hinzufügen-Button -->
+                <button type="submit" id="addButton" class="bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600 transition duration-200 w-full font-semibold text-lg shadow-md">Buch hinzufügen</button>
+            </form>
+            <div id="addFeedback" class="mt-2 text-sm text-gray-600 hidden"></div> <!-- Feedback-Bereich -->
+        </div>
+
+        <!-- Bücherliste -->
+        <div id="bookList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-white text-center p-6">
+        <p class="text-sm">Erstellt von David Koch | BibProject 2025</p>
+    </footer>
+
+    <!-- Modal für Bearbeitung -->
+    <div id="editModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Buch bearbeiten</h2>
+            <form id="editBookForm" class="space-y-4">
+                <input type="hidden" id="editIsbn">
+                <input type="text" id="editTitle" placeholder="Titel" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="number" id="editYear" placeholder="Jahr" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="text" id="editGenre" placeholder="Genre" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="text" id="editAuthorId" placeholder="Autor-ID" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <div class="flex space-x-4">
+                    <button type="submit" class="bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600 transition duration-200 flex-1 font-semibold">Speichern</button>
+                    <button type="button" id="closeModal" class="bg-gray-500 text-white p-3 rounded-lg hover:bg-gray-600 transition duration-200 flex-1 font-semibold">Abbrechen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
